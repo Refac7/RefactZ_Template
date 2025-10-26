@@ -7,11 +7,18 @@ import "../styles/theme.css";
 <html lang="zh-CN">
   <head>
     <meta charset="utf-8" />
+
+    <!-- 新增：标准 viewport（包含 viewport-fit=cover 支持 iOS 安全区） -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+
     <title>{siteConfig.title}</title>
     <link rel="icon" type="image/svg+xml" href={siteConfig.icons.favicon} />
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap&text=ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789,.!?@#$%^&*()_+-=[]{}|;:'" rel="stylesheet">
+
+    <!-- 修复：移除 &text 参数以确保字体链接正确加载 -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
     <!-- 更新图标字体引入 -->
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+
     <script type="module">
       import '@material/web/button/filled-button.js';
       import '@material/web/button/outlined-button.js';
@@ -28,25 +35,49 @@ import "../styles/theme.css";
         document.head.appendChild(s);
       }
     </script>
+
+    <!-- 新增：为移动端 Safari 修复 100vh 问题，设置 --svh（并在 resize/orientationchange 时更新） -->
     <script>
-      // 主题初始化
-      function initTheme() {
-        const savedTheme = localStorage.getItem('theme');
-        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-        
-        if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
-          document.documentElement.classList.add('dark');
+      (function () {
+        function setSVH() {
+          document.documentElement.style.setProperty('--svh', (window.innerHeight * 0.01) + 'px');
         }
-      }
-
-      // 更新事件监听器，添加类型定义
-      window.addEventListener('themeChanged', ((e: CustomEvent<{theme: string}>) => {
-        localStorage.setItem('theme', e.detail.theme);
-      }) as EventListener);
-
-      // 在页面加载时初始化主题
-      document.addEventListener('DOMContentLoaded', initTheme);
+        setSVH();
+        window.addEventListener('resize', setSVH, { passive: true });
+        window.addEventListener('orientationchange', setSVH, { passive: true });
+      })();
     </script>
+
+    <!-- 修复：移除 TypeScript 注解，使用纯 JS 的主题初始化与事件监听 -->
+    <script>
+      (function () {
+        function initTheme() {
+          var savedTheme = localStorage.getItem('theme');
+          var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+          if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
+            document.documentElement.classList.add('dark');
+          }
+        }
+
+        window.addEventListener('themeChanged', function (e) {
+          try {
+            var theme = null;
+            // 仅在运行时确认是 CustomEvent 时访问 detail，避免 TS 报错
+            if (typeof CustomEvent !== 'undefined' && e instanceof CustomEvent && e.detail) {
+              theme = e.detail.theme;
+            }
+            if (theme) {
+              localStorage.setItem('theme', theme);
+            }
+          } catch (err) {
+            // 忽略无 detail 的事件
+          }
+        });
+
+        document.addEventListener('DOMContentLoaded', initTheme);
+      })();
+    </script>
+
     <style define:vars={{
       'theme-primary': themeConfig.colors.light.primary,
       'theme-primary-container': themeConfig.colors.light.primaryContainer,

@@ -190,6 +190,48 @@ body {
   background-color: var(--md-sys-color-hover-dark);
 }
 
+/* 移动端 / Safari 兼容性修复 */
+html, body {
+  -webkit-text-size-adjust: 100%; /* 禁用 iOS 自动文字缩放 */
+  -webkit-overflow-scrolling: touch; /* 平滑滚动体验（iOS） */
+  /* 可使用 --svh 替代 100vh：高度计算由页面脚本设置 */
+  /* 例如：height: calc(var(--svh, 1vh) * 100); */
+}
+
+/* Utility: 使用 JS 计算的 --svh 来修复移动端 100vh 问题 */
+.full-height {
+  /* 回退：如果未设置 --svh，则使用 min(100vh, 100svh)（一些浏览器支持 svh） */
+  height: calc(var(--svh, 1vh) * 100);
+  /* 更稳妥的替代写法（可按需使用）：
+     height: min(100vh, calc(var(--svh, 1vh) * 100));
+  */
+}
+
+/* 响应式：缩窄屏幕时优化容器宽度与内边距（适配 Edge 窄窗口） */
+@media (max-width: 767px) {
+  .container {
+    width: calc(100% - 2rem);
+    padding: 1rem;
+  }
+
+  .material-symbols-outlined {
+    font-size: 20px;
+    width: 20px;
+    height: 20px;
+  }
+}
+
+/* 额外小屏优化 */
+@media (max-width: 480px) {
+  :root {
+    --md-sys-typescale-body-large-size: 15px;
+  }
+  .container {
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+  }
+}
+
 /* Utils - 工具类 */
 .material-symbols-outlined {
   font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
