@@ -38,17 +38,26 @@ export default function Header() {
             display: "flex",
             alignItems: "center"
           }}>
-            <md-icon style={{color: "var(--md-sys-color-on-primary-container)"}}>code</md-icon>
+            <md-icon style={{
+              color: "var(--md-sys-color-on-primary-container)",
+              fontSize: `${siteConfig.icons.headerSize}px`,
+              width: `${siteConfig.icons.headerSize}px`,
+              height: `${siteConfig.icons.headerSize}px`
+            }}>
+              {siteConfig.icons.header}
+            </md-icon>
           </div>
-          <span className="md-typescale-title-large">Resilient</span>
+          <span className="md-typescale-title-large">{siteConfig.title}</span>
         </div>
 
         <nav className="layout-row" style={{gap: "var(--md-sys-spacing-3)"}}>
           <div className="layout-row" style={{gap: "var(--md-sys-spacing-2)"}}>
-            <md-filled-button onClick={() => window.open(siteConfig.social.resume, '_blank')}>
-              <md-icon slot="icon">description</md-icon>
-              简历
-            </md-filled-button>
+            <a href={siteConfig.social.resume} target="_blank" rel="noopener noreferrer" style={{textDecoration: 'none'}}>
+              <md-filled-button>
+                <md-icon slot="icon">description</md-icon>
+                简历
+              </md-filled-button>
+            </a>
             <a href={`mailto:${siteConfig.email}`} style={{textDecoration: 'none'}}>
               <md-filled-tonal-icon-button>
                 <md-icon>mail</md-icon>

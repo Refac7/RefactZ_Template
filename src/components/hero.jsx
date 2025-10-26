@@ -33,10 +33,12 @@ export default function Hero() {
       }}>
         <md-ripple></md-ripple>
         <span className="material-symbols-outlined" style={{
-          fontSize: "48px",
+          fontSize: `${siteConfig.icons.heroSize}px`,
+          width: `${siteConfig.icons.heroSize}px`,
+          height: `${siteConfig.icons.heroSize}px`,
           color: "var(--md-sys-color-on-primary)"
         }}>
-          code
+          {siteConfig.icons.hero}
         </span>
       </div>
       <div>
