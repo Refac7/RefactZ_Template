@@ -12,16 +12,6 @@ export default function Hero() {
       overflow: "hidden"
     }}>
       <div style={{
-        position: "absolute",
-        top: "-50%",
-        right: "-20%",
-        width: "600px",
-        height: "600px",
-        background: "radial-gradient(circle, var(--md-sys-color-primary-container) 0%, transparent 70%)",
-        opacity: 0.5,
-        pointerEvents: "none"
-      }} />
-      <div style={{
         width: "120px",
         height: "120px",
         borderRadius: "var(--md-sys-shape-corner-extra-large)",

@@ -58,7 +58,11 @@ export default function Header() {
                 简历
               </md-filled-button>
             </a>
-            <a href={`mailto:${siteConfig.email}`} style={{textDecoration: 'none'}}>
+            {/* 在窄屏下隐藏mail按钮 */}
+            <a href={`mailto:${siteConfig.email}`} style={{
+              textDecoration: 'none',
+              display: 'none' // 默认隐藏
+            }} className="show-on-wide">
               <md-filled-tonal-icon-button>
                 <md-icon>mail</md-icon>
               </md-filled-tonal-icon-button>
@@ -69,6 +73,15 @@ export default function Header() {
           </div>
         </nav>
       </div>
+
+      {/* 添加CSS媒体查询 */}
+      <style>{`
+        @media (min-width: 768px) {
+          .show-on-wide {
+            display: block !important;
+          }
+        }
+      `}</style>
     </header>
   );
 }
