@@ -1,7 +1,6 @@
 {
   "name": "RefactZ_Template",
   "version": "1.0.0",
-  "author": "Refactored"
   "license": "MIT",
   "scripts": {
     "dev": "astro dev",
