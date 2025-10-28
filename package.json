@@ -1,7 +1,8 @@
 {
-  "name": "personal-site",
+  "name": "RefactZ_Template",
   "version": "1.0.0",
-  "private": true,
+  "author": "Refactored"
+  "license": "MIT",
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
